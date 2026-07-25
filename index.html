@@ -43,7 +43,7 @@
     font-family:'Nunito',sans-serif;
     display:flex;
     justify-content:center;
-    padding:26px 14px 60px;
+    padding:16px 14px 30px;
     overflow-x:hidden;
   }
   h1,h2,h3{font-family:'Fredoka',sans-serif; margin:0;}
@@ -78,13 +78,13 @@
   }
   .brand .stars{color:var(--circus-gold); font-size:15px; letter-spacing:6px;}
 
-  .bunting{margin:14px auto -1px; display:block; width:100%; max-width:400px; position:relative; z-index:1;}
+  .bunting{margin:8px auto -1px; display:block; width:100%; max-width:400px; position:relative; z-index:1;}
 
   .card{
     background:var(--card);
     border:4px solid var(--outline);
     border-radius:18px;
-    padding:clamp(18px,5vw,28px);
+    padding:clamp(14px,4vw,22px);
     position:relative;
     z-index:1;
     box-shadow:0 7px 0 var(--outline);
@@ -92,8 +92,8 @@
   .screen{animation:fadeUp .35s ease both;}
   @keyframes fadeUp{from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);}}
 
-  .mascot-wrap{display:flex; flex-direction:column; align-items:center; margin-bottom:16px;}
-  .mascot-wrap svg{width:92px; height:92px;}
+  .mascot-wrap{display:flex; flex-direction:column; align-items:center; margin-bottom:10px;}
+  .mascot-wrap svg{width:78px; height:78px;}
   .mascot-bubble{
     margin-top:8px; background:var(--sky-50); color:var(--sky-dark);
     font-size:13px; font-weight:700; padding:7px 14px; border-radius:999px;
@@ -219,13 +219,13 @@
     transition:transform .1s ease, background .12s ease, color .12s ease, box-shadow .1s ease;
   }
   .tool-btn:active{transform:translateY(3px); box-shadow:0 0 0 var(--outline);}
-  .tool-btn.active.tool-1{background:#EFEBEE; color:#5A5158;}
+  .tool-btn.active.tool-1{background:var(--outline); color:#fff;}
   .tool-btn.active.tool-2{background:var(--sun); color:var(--sun-dark);}
-  .tool-btn.active.tool-3{background:var(--mint); color:var(--mint-dark);}
+  .tool-btn.active.tool-3{background:var(--mint); color:#0D3D26;}
   .note-legend{display:flex; gap:12px; flex-wrap:wrap; font-size:11px; color:var(--ink-soft); font-weight:700; margin-bottom:10px;}
   .note-legend span{display:flex; align-items:center; gap:4px;}
   .legend-dot{width:11px; height:11px; border-radius:50%; display:inline-block; flex-shrink:0; border:1.5px solid var(--outline);}
-  .legend-dot.dot-1{background:#C7C0C9;}
+  .legend-dot.dot-1{background:var(--outline);}
   .legend-dot.dot-2{background:var(--sun);}
   .legend-dot.dot-3{background:var(--mint);}
   .pos-grid{display:flex; gap:8px;}
@@ -245,9 +245,19 @@
   }
   .pos-cell:hover{transform:scale(1.08);}
   .pos-cell:active{transform:scale(.9);}
-  .pos-cell.pos-1{background:#EFEBEE; color:#8A818C; text-decoration:line-through;}
-  .pos-cell.pos-2{background:var(--sun); color:var(--sun-dark); font-weight:700;}
-  .pos-cell.pos-3{background:var(--mint); color:var(--mint-dark); font-weight:700;}
+  .pos-cell.pos-1{
+    background:var(--outline); color:#ABA2B5; border-color:var(--outline);
+    text-decoration:line-through; text-decoration-thickness:2.5px; text-decoration-color:#FF8FA8;
+  }
+  .pos-cell.pos-2{
+    background:var(--sun); color:var(--sun-dark); font-weight:800; border-width:2px;
+    animation:considerPulse 1.8s ease-in-out infinite;
+  }
+  @keyframes considerPulse{0%,100%{transform:scale(1);} 50%{transform:scale(1.08);}}
+  .pos-cell.pos-3{
+    background:var(--mint); color:#0D3D26; font-weight:800; border-width:2.5px;
+    box-shadow:0 0 0 2px var(--mint-50);
+  }
 
   .history{margin-top:20px;}
   .history-title{font-size:12.5px; color:var(--ink-soft); font-weight:800; margin-bottom:9px;}
@@ -294,17 +304,25 @@
   .confetti{position:absolute; top:-14px; left:0; right:0; height:110px; overflow:visible; pointer-events:none;}
   .confetti span{position:absolute; top:-20px; font-size:17px; animation:fall 1.8s ease-in forwards;}
   @keyframes fall{0%{transform:translateY(0) rotate(0deg); opacity:1;} 100%{transform:translateY(150px) rotate(200deg); opacity:0;}}
-  .win-title{font-size:21px; font-weight:600; margin-bottom:8px; color:var(--pink-dark);}
-  .win-rank{
-    display:inline-block; background:var(--sun-50); color:var(--sun-dark);
-    font-family:'Fredoka',sans-serif; font-weight:600; font-size:14px;
-    padding:6px 16px; border-radius:999px; margin-bottom:16px;
-    border:2.5px solid var(--outline); box-shadow:0 3px 0 var(--outline);
+  .result-badge{
+    background:var(--sun-50); border-radius:16px; padding:14px 16px; margin:4px 0 12px;
+    border:3px solid var(--outline); box-shadow:0 4px 0 var(--outline);
   }
+  .result-badge.result-muted{background:var(--sky-50);}
+  .result-eyebrow{
+    font-family:'Fredoka',sans-serif; font-size:11.5px; font-weight:600;
+    color:var(--sun-dark); margin-bottom:4px; letter-spacing:1px;
+  }
+  .result-badge.result-muted .result-eyebrow{color:var(--sky-dark);}
+  .result-icon{font-size:34px; line-height:1.1; margin-bottom:2px;}
+  .result-idiom{font-family:'Fredoka',sans-serif; font-size:20px; font-weight:700; color:var(--pink-dark); letter-spacing:1px;}
+  .result-badge.result-muted .result-idiom{color:var(--sky-dark);}
+  .result-meaning{font-size:11px; color:var(--ink-soft); margin-top:3px; font-weight:700;}
+  .result-comment{font-size:12.5px; color:var(--ink); margin-top:7px; line-height:1.55; font-weight:700;}
   .win-code-label{font-size:12.5px; color:var(--ink-soft); margin-bottom:6px; font-weight:800;}
   .win-code{display:flex; gap:8px; justify-content:center; margin-bottom:6px;}
   .win-code .hist-chip{width:38px; height:38px; font-size:18px; background:var(--mint-50); color:var(--mint-dark); border-width:2.5px;}
-  .win-attempts{font-size:13.5px; color:var(--ink-soft); margin:10px 0 20px; font-weight:800;}
+  .win-attempts{font-size:13.5px; color:var(--ink-soft); margin:8px 0 14px; font-weight:800;}
   .win-actions{display:flex; flex-direction:column; gap:9px;}
   .secondary-btn{
     height:46px; border-radius:14px; border:2.5px solid var(--outline);
@@ -367,11 +385,19 @@ function computeResult(secret, guess){
   return { A, B: common - A };
 }
 function getRank(attempts){
-  if(attempts <= 4) return { title: '天才神探', icon: '🏆' };
-  if(attempts <= 7) return { title: '厲害偵探', icon: '🥈' };
-  if(attempts <= 10) return { title: '認真新手', icon: '🥉' };
-  return { title: '幸運破案', icon: '🎯' };
+  const tiers = [
+    { max: 3, icon: '🔮', idiom: '料事如神', meaning: '形容你猜得又快又準，像會讀心術一樣', comment: '哇！你是不是偷偷會讀心術，一下子就找到答案了！' },
+    { max: 5, icon: '🧠', idiom: '神機妙算', meaning: '形容你每一步都算得剛剛好', comment: '每一步都算得剛剛好，根本是數字界的小軍師！' },
+    { max: 8, icon: '🐾', idiom: '步步為營', meaning: '形容你穩紮穩打，一步一步逼近答案', comment: '穩穩地一步一步逼近真相，這份耐心超厲害！' },
+    { max: 12, icon: '🔨', idiom: '鍥而不捨', meaning: '形容你堅持不放棄，努力到最後一刻', comment: '就算卡關也不放棄，堅持到底就是你的超能力！' }
+  ];
+  for(const t of tiers){ if(attempts <= t.max) return t; }
+  return { icon: '🌈', idiom: '苦盡甘來', meaning: '形容過程雖然辛苦，最後終於成功', comment: '過程雖然曲折，但最後還是被你破解了，太棒了！' };
 }
+const GIVEUP_RESULT = {
+  icon: '💪', idiom: '再接再厲', meaning: '形容不因為這次沒成功就放棄，繼續努力',
+  comment: '這次先公布答案，下次你一定可以更快破解！'
+};
 
 function selectMode(mode){
   state.mode = mode; state.secret = []; state.guess = [undefined,undefined,undefined,undefined];
@@ -691,7 +717,7 @@ function renderPlay(){
 }
 
 function renderWin(){
-  const rank = getRank(state.attempts);
+  const result = state.gaveUp ? GIVEUP_RESULT : getRank(state.attempts);
   let confettiHtml = '';
   if(!state.gaveUp){
     const emojis = ['🎉','⭐','🎊','✨','🎈'];
@@ -710,8 +736,13 @@ function renderWin(){
       <div class="win-wrap">
         ${confettiHtml}
         ${mascotBlock(state.hostAnimal, state.gaveUp ? '沒關係，下次一定可以！' : '太厲害了！表演成功！')}
-        <div class="win-title">${state.gaveUp ? '密碼公布！' : '恭喜破解成功！'}</div>
-        ${!state.gaveUp ? `<div class="win-rank">${rank.icon} ${rank.title}</div>` : ''}
+        <div class="result-badge ${state.gaveUp ? 'result-muted' : ''}">
+          <div class="result-eyebrow">${state.gaveUp ? '📖 密碼公布' : '🎉 破解成功'}</div>
+          <div class="result-icon">${result.icon}</div>
+          <div class="result-idiom">${result.idiom}</div>
+          <div class="result-meaning">${result.meaning}</div>
+          <div class="result-comment">${result.comment}</div>
+        </div>
         <div class="win-code-label">正確密碼是</div>
         <div class="win-code">${codeChips}</div>
         <div class="win-attempts">${state.gaveUp ? `你嘗試了 ${state.attempts} 次` : `總共用了 ${state.attempts} 次猜對！`}</div>
