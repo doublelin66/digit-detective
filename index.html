@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>數字密碼｜動物馬戲團</title>
+<title>數字密碼｜推理擂台戰</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -72,11 +72,23 @@
     box-shadow:0 3px 0 var(--outline);
   }
   .brand h1{
-    font-size:clamp(24px,6.5vw,32px); font-weight:700; color:var(--circus-red-dark);
-    letter-spacing:1px;
-    -webkit-text-stroke:1px var(--outline);
+    display:flex; align-items:center; justify-content:center; gap:6px;
   }
-  .brand .stars{color:var(--circus-gold); font-size:15px; letter-spacing:6px;}
+  .brand .crown{font-size:22px; flex-shrink:0;}
+  .brand .title-3d{
+    font-family:'Fredoka',sans-serif; font-weight:700;
+    font-size:clamp(26px,7.5vw,38px); letter-spacing:1px;
+    color:var(--circus-gold);
+    -webkit-text-stroke:1.5px var(--outline);
+    text-stroke:1.5px var(--outline);
+    text-shadow:
+      1px 1px 0 var(--circus-red-dark),
+      2px 2px 0 var(--circus-red-dark),
+      3px 3px 0 var(--circus-red-dark),
+      4px 4px 0 var(--circus-red-dark),
+      5px 5px 0 var(--circus-red-dark),
+      6px 6px 0 var(--outline);
+  }
 
   .bunting{margin:8px auto -1px; display:block; width:100%; max-width:400px; position:relative; z-index:1;}
 
@@ -116,7 +128,8 @@
   .mode-btn:nth-child(2){background:var(--pink-50);}
   .mode-btn:hover{transform:translateY(-2px); box-shadow:0 7px 0 var(--outline);}
   .mode-btn:active{transform:translateY(4px); box-shadow:0 1px 0 var(--outline);}
-  .mode-btn .icon{font-size:30px; flex-shrink:0;}
+  .mode-btn .icon{width:44px; height:44px; flex-shrink:0; display:flex; align-items:center; justify-content:center;}
+  .mode-btn .icon svg{max-width:100%; max-height:100%; width:auto; height:auto; display:block;}
   .mode-btn .label{font-family:'Fredoka',sans-serif; font-size:17px; font-weight:600; margin-bottom:2px; color:var(--pink-dark);}
   .mode-btn:nth-child(1) .label{color:var(--sky-dark);}
   .mode-btn .desc{font-size:13px; color:var(--ink-soft); font-weight:700; line-height:1.5;}
@@ -319,6 +332,20 @@
   .result-badge.result-muted .result-idiom{color:var(--sky-dark);}
   .result-meaning{font-size:11px; color:var(--ink-soft); margin-top:3px; font-weight:700;}
   .result-comment{font-size:12.5px; color:var(--ink); margin-top:7px; line-height:1.55; font-weight:700;}
+  .result-english{margin-top:9px; padding-top:8px; border-top:1.5px dashed var(--outline);}
+  .en-tag{font-size:10.5px; color:var(--ink-soft); font-weight:800; display:block; margin-bottom:5px;}
+  .en-line{display:flex; align-items:center; gap:6px; flex-wrap:wrap; justify-content:center;}
+  .en-word{
+    font-family:'Fredoka',sans-serif; font-size:12.5px; font-weight:700;
+    background:var(--sky-50); color:var(--sky-dark); padding:2px 9px;
+    border-radius:7px; border:1.5px solid var(--outline);
+  }
+  .en-type{
+    font-size:9.5px; color:var(--ink-soft); font-weight:800;
+    background:var(--sun-50); padding:1px 7px; border-radius:6px; border:1px solid var(--outline);
+  }
+  .en-sentence{font-size:12px; color:var(--ink); font-weight:700; font-style:italic; margin-top:3px;}
+  .en-zh{font-size:11.5px; color:var(--ink-soft); font-weight:700; margin-top:3px;}
   .win-code-label{font-size:12.5px; color:var(--ink-soft); margin-bottom:6px; font-weight:800;}
   .win-code{display:flex; gap:8px; justify-content:center; margin-bottom:6px;}
   .win-code .hist-chip{width:38px; height:38px; font-size:18px; background:var(--mint-50); color:var(--mint-dark); border-width:2.5px;}
@@ -348,8 +375,8 @@
   <div class="balloon b2"></div>
   <div class="balloon b3"></div>
   <div class="brand">
-    <div class="brand-badge">🎪 動物馬戲團</div>
-    <h1><span class="stars">★</span> 數字密碼 <span class="stars">★</span></h1>
+    <div class="brand-badge">🥊 我是推理王</div>
+    <h1><span class="crown">👑</span><span class="title-3d">數字密碼</span><span class="crown">👑</span></h1>
   </div>
   <div id="bunting-slot"></div>
   <div class="card" id="app"></div>
@@ -385,18 +412,85 @@ function computeResult(secret, guess){
   return { A, B: common - A };
 }
 function getRank(attempts){
-  const tiers = [
-    { max: 3, icon: '🔮', idiom: '料事如神', meaning: '形容你猜得又快又準，像會讀心術一樣', comment: '哇！你是不是偷偷會讀心術，一下子就找到答案了！' },
-    { max: 5, icon: '🧠', idiom: '神機妙算', meaning: '形容你每一步都算得剛剛好', comment: '每一步都算得剛剛好，根本是數字界的小軍師！' },
-    { max: 8, icon: '🐾', idiom: '步步為營', meaning: '形容你穩紮穩打，一步一步逼近答案', comment: '穩穩地一步一步逼近真相，這份耐心超厲害！' },
-    { max: 12, icon: '🔨', idiom: '鍥而不捨', meaning: '形容你堅持不放棄，努力到最後一刻', comment: '就算卡關也不放棄，堅持到底就是你的超能力！' }
+  const tiers = {
+    1: [
+      { icon: '🔮', idiom: '料事如神', meaning: '形容猜得又快又準，像會讀心術一樣', comment: '哇！第一次就猜中，你是不是偷偷會讀心術！', en: { text: 'mind reader', type: '片語', zh: '你根本是讀心者！', sentence: "You're a mind reader!" } },
+      { icon: '🌙', idiom: '未卜先知', meaning: '形容還沒開始想就已經知道答案', comment: '你是不是有預知能力，馬上就找到答案！', en: { text: 'fortune teller', type: '片語', zh: '你就像預言家一樣！', sentence: "You're like a fortune teller!" } },
+      { icon: '🦅', idiom: '火眼金睛', meaning: '形容眼睛超尖，一眼就看穿真相', comment: '你的眼睛也太尖了吧，一眼就看穿密碼！', en: { text: 'sharp eyes', type: '片語', zh: '你的眼睛好銳利！', sentence: 'You have sharp eyes!' } },
+      { icon: '🎯', idiom: '神準無比', meaning: '形容準確到讓人不敢相信', comment: '準到讓人不敢相信，你是數字之神吧！', en: { text: 'spot on', type: '片語', zh: '你猜得完全正確！', sentence: 'That guess was spot on!' } },
+      { icon: '🏹', idiom: '一擊必中', meaning: '形容一次出手就命中目標', comment: '一次出手就正中目標，帥氣滿分！', en: { text: 'bullseye', type: '單字', zh: '正中紅心！一次就中！', sentence: 'Bullseye! First try!' } }
+    ],
+    2: [
+      { icon: '🧠', idiom: '神機妙算', meaning: '形容每一步都算得剛剛好', comment: '只用兩次就抓到答案，根本是數字界的小軍師！', en: { text: 'genius', type: '單字', zh: '你真是個天才！', sentence: "You're a genius!" } },
+      { icon: '💡', idiom: '足智多謀', meaning: '形容很有智慧、點子很多', comment: '你的腦袋裡是不是裝了一台電腦！', en: { text: 'brilliant', type: '單字', zh: '你的想法真是太厲害了！', sentence: 'Your thinking is brilliant!' } },
+      { icon: '🧩', idiom: '心思縝密', meaning: '形容想事情很仔細、很周全', comment: '每個線索都被你想得清清楚楚！', en: { text: 'careful thinker', type: '片語', zh: '你想事情真的很周到！', sentence: "You're such a careful thinker!" } },
+      { icon: '♟️', idiom: '運籌帷幄', meaning: '形容在事前就把計畫都安排好了', comment: '感覺你早就想好整個作戰計畫了！', en: { text: 'strategist', type: '單字', zh: '你是很棒的策略家！', sentence: "You're a great strategist!" } },
+      { icon: '🔑', idiom: '智珠在握', meaning: '形容心裡早就有了答案、很有把握', comment: '你心裡是不是早就有答案了！', en: { text: 'confident', type: '單字', zh: '你看起來好有自信！', sentence: 'You seem so confident!' } }
+    ],
+    3: [
+      { icon: '👀', idiom: '眼明手快', meaning: '形容眼睛跟反應都超快', comment: '眼睛跟手速都超快，數字都逃不過你！', en: { text: 'quick', type: '單字', zh: '你的動作好快！', sentence: "You're so quick!" } },
+      { icon: '🍰', idiom: '手到擒來', meaning: '形容做起來輕輕鬆鬆、毫不費力', comment: '你抓答案的速度也太輕鬆了吧！', en: { text: 'piece of cake', type: '片語', zh: '這對你來說輕而易舉！', sentence: 'That was a piece of cake for you!' } },
+      { icon: '🔍', idiom: '明察秋毫', meaning: '形容觀察力很好，連小細節都看得到', comment: '連最小的線索都逃不過你的眼睛！', en: { text: 'observant', type: '單字', zh: '你的觀察力真敏銳！', sentence: "You're so observant!" } },
+      { icon: '⚡', idiom: '反應如電', meaning: '形容反應速度像閃電一樣快', comment: '你的反應速度根本像閃電一樣！', en: { text: 'lightning fast', type: '片語', zh: '你快得像閃電一樣！', sentence: "You're lightning fast!" } },
+      { icon: '💎', idiom: '一目了然', meaning: '形容一看就完全明白', comment: '線索一擺出來你馬上就懂了！', en: { text: 'crystal clear', type: '片語', zh: '這對你來說一清二楚！', sentence: 'It was crystal clear to you!' } }
+    ],
+    4: [
+      { icon: '🦊', idiom: '聰明伶俐', meaning: '形容反應快、腦筋動得靈活', comment: '反應超快、腦筋動得靈活，真的很聰明！', en: { text: 'clever', type: '單字', zh: '你真的好聰明！', sentence: 'You are so clever!' } },
+      { icon: '🌀', idiom: '腦筋靈活', meaning: '形容思考很有彈性、想法很多', comment: '你的腦筋轉得比誰都快！', en: { text: 'sharp mind', type: '片語', zh: '你的腦筋真敏銳！', sentence: 'You have a sharp mind!' } },
+      { icon: '❄️', idiom: '冰雪聰明', meaning: '形容非常聰明、一點就通', comment: '一點就通，你真的超聰明！', en: { text: 'bright', type: '單字', zh: '你真的好機靈！', sentence: "You're so bright!" } },
+      { icon: '🖐️', idiom: '心靈手巧', meaning: '形容手腦並用、做事很靈巧', comment: '動腦又動手，兩邊都難不倒你！', en: { text: 'skillful', type: '單字', zh: '你的手腦真靈巧！', sentence: 'You are so skillful!' } },
+      { icon: '📚', idiom: '舉一反三', meaning: '形容學一個馬上就能想到其他方法', comment: '學一次就馬上舉一反三，太厲害了！', en: { text: 'quick learner', type: '片語', zh: '你學東西真的好快！', sentence: "You're such a quick learner!" } }
+    ],
+    5: [
+      { icon: '⭐', idiom: '天生好手', meaning: '形容好像天生就很會做這件事', comment: '感覺你天生就很會玩這個遊戲！', en: { text: 'natural talent', type: '片語', zh: '你真是天生好手！', sentence: "You're a natural talent!" } },
+      { icon: '🎁', idiom: '天賦異稟', meaning: '形容擁有與生俱來的特殊才能', comment: '你根本是自帶特殊天賦來的吧！', en: { text: 'gifted', type: '單字', zh: '你真的很有天賦！', sentence: "You're so gifted!" } },
+      { icon: '🌿', idiom: '渾然天成', meaning: '形容表現得很自然，好像天生就會', comment: '每個動作都好自然，好像天生就會！', en: { text: 'natural', type: '單字', zh: '這對你來說好自然！', sentence: 'It looks so natural for you!' } },
+      { icon: '🧤', idiom: '得心應手', meaning: '形容做起來非常順手、毫不費力', comment: '玩起來完全得心應手，太順了！', en: { text: 'in your element', type: '片語', zh: '你完全得心應手！', sentence: "You're totally in your element!" } },
+      { icon: '🏄', idiom: '遊刃有餘', meaning: '形容做事很輕鬆、能力綽綽有餘', comment: '這對你來說根本綽綽有餘！', en: { text: 'a natural', type: '片語', zh: '你對這個真的很拿手！', sentence: "You're a natural at this!" } }
+    ],
+    6: [
+      { icon: '🎆', idiom: '一鳴驚人', meaning: '形容突然表現出色，讓大家嚇一跳', comment: '這次表現讓大家嚇一跳，太驚艷了！', en: { text: 'amazing', type: '單字', zh: '那真是太驚艷了！', sentence: 'That was amazing!' } },
+      { icon: '🎲', idiom: '出奇制勝', meaning: '形容用讓人意想不到的方法獲勝', comment: '你這招也太出乎意料了，成功了！', en: { text: 'surprise win', type: '片語', zh: '真是出乎意料的勝利！', sentence: 'What a surprise win!' } },
+      { icon: '👏', idiom: '技驚四座', meaning: '形容表現精彩，讓在場的人都佩服', comment: '你的表現讓大家都佩服得五體投地！', en: { text: 'impressive', type: '單字', zh: '那表現真令人佩服！', sentence: 'That was impressive!' } },
+      { icon: '✨', idiom: '大放異彩', meaning: '形容表現特別亮眼、與眾不同', comment: '你今天表現得特別亮眼呢！', en: { text: 'shine', type: '單字', zh: '你今天真的很閃耀！', sentence: 'You really shine today!' } },
+      { icon: '😲', idiom: '驚為天人', meaning: '形容表現好到讓人以為是奇蹟', comment: '好到讓人以為看到了奇蹟！', en: { text: 'incredible', type: '單字', zh: '那簡直不可思議！', sentence: 'That was incredible!' } }
+    ],
+    7: [
+      { icon: '🎯', idiom: '大顯身手', meaning: '形容完全展現出自己的實力', comment: '這次完全展現你的實力，掌聲鼓勵！', en: { text: 'well done', type: '片語', zh: '做得好！', sentence: 'Well done!' } },
+      { icon: '🦸', idiom: '各顯神通', meaning: '形容大家各自拿出自己的本領', comment: '你拿出了自己的獨門本領！', en: { text: 'show off skills', type: '片語', zh: '你把本領都展現出來了！', sentence: 'Way to show off your skills!' } },
+      { icon: '💪', idiom: '渾身解數', meaning: '形容把所有的本領都用上了', comment: '你把所有的本領都用上了呢！', en: { text: 'give it your all', type: '片語', zh: '你已經全力以赴了！', sentence: 'You gave it your all!' } },
+      { icon: '🔥', idiom: '全力以赴', meaning: '形容用盡全部的力氣去完成一件事', comment: '從頭到尾都全力以赴，真的很棒！', en: { text: 'try your best', type: '片語', zh: '你已經盡力了！', sentence: 'You tried your best!' } },
+      { icon: '📈', idiom: '精益求精', meaning: '形容做得好還想做得更好', comment: '每一次都想做得更好，這種態度超棒！', en: { text: 'improve', type: '單字', zh: '你一直努力讓自己更好！', sentence: 'You keep trying to improve!' } }
+    ],
+    8: [
+      { icon: '🐾', idiom: '步步為營', meaning: '形容穩紮穩打，一步一步逼近答案', comment: '穩穩地一步一步逼近真相，這份耐心超厲害！', en: { text: 'patient', type: '單字', zh: '你真的好有耐心！', sentence: 'You are so patient!' } },
+      { icon: '🧱', idiom: '穩紮穩打', meaning: '形容做事踏實，一步一步慢慢來', comment: '一步一步慢慢來，最後穩穩抓到答案！', en: { text: 'steady', type: '單字', zh: '你一直都很穩紮穩打！', sentence: 'You stayed steady the whole time!' } },
+      { icon: '📋', idiom: '按部就班', meaning: '形容照著順序、有計畫地進行', comment: '照著自己的方法一步步進行，真的很棒！', en: { text: 'step by step', type: '片語', zh: '你一步一步把它解開了！', sentence: 'You solved it step by step!' } },
+      { icon: '🌱', idiom: '循序漸進', meaning: '形容慢慢地、一點一點地進步', comment: '一點一點慢慢逼近答案，很有耐心！', en: { text: 'gradually', type: '單字', zh: '你慢慢地想出答案了！', sentence: 'You gradually figured it out!' } },
+      { icon: '🥾', idiom: '腳踏實地', meaning: '形容做事很實在，不投機取巧', comment: '每一步都走得很扎實，一點都不投機取巧！', en: { text: 'down to earth', type: '片語', zh: '你做事真的很踏實！', sentence: "You're so down to earth!" } }
+    ],
+    9: [
+      { icon: '🔨', idiom: '鍥而不捨', meaning: '形容堅持不放棄，努力到最後一刻', comment: '就算卡關也不放棄，堅持到底就是你的超能力！', en: { text: 'never give up', type: '片語', zh: '永不放棄！', sentence: 'Never give up!' } },
+      { icon: '🧗', idiom: '堅持不懈', meaning: '形容不管多困難都繼續努力下去', comment: '不管多難都繼續努力，這種精神超棒！', en: { text: 'keep trying', type: '片語', zh: '你一直沒有放棄！', sentence: 'You kept trying!' } },
+      { icon: '🛡️', idiom: '百折不撓', meaning: '形容遇到再多挫折也不放棄', comment: '遇到再多困難都打不倒你！', en: { text: 'unstoppable', type: '單字', zh: '你真是勢不可擋！', sentence: "You're unstoppable!" } },
+      { icon: '⛰️', idiom: '愚公移山', meaning: '形容只要肯堅持，再大的困難都能解決', comment: '只要肯堅持，再難的密碼都能被你解開！', en: { text: 'determined', type: '單字', zh: '你的決心真堅定！', sentence: 'You are so determined!' } },
+      { icon: '⏳', idiom: '持之以恆', meaning: '形容長時間堅持做同一件事', comment: '一直堅持到最後，真的很有毅力！', en: { text: 'persistence', type: '單字', zh: '這真的需要很大的毅力！', sentence: 'That took real persistence!' } }
+    ]
+  };
+  const fallback = [
+    { icon: '🌈', idiom: '苦盡甘來', meaning: '形容過程雖然辛苦，最後終於成功', comment: '過程雖然曲折，但最後還是被你破解了，太棒了！', en: { text: 'sweet success', type: '片語', zh: '這真是甜美的成功！', sentence: "That's a sweet success!" } },
+    { icon: '🙏', idiom: '皇天不負苦心人', meaning: '形容只要肯努力，老天爺不會辜負你', comment: '你的努力終於有了回報！', en: { text: 'pay off', type: '片語', zh: '你的努力終於有回報了！', sentence: 'Your hard work paid off!' } },
+    { icon: '☀️', idiom: '否極泰來', meaning: '形容不好的情況過去後，好事就會到來', comment: '撐過困難的部分，好結果就來了！', en: { text: 'turn around', type: '片語', zh: '情況真的因你而好轉了！', sentence: 'Things really turned around for you!' } },
+    { icon: '🌕', idiom: '守得雲開見月明', meaning: '形容耐心等待後終於看見成果', comment: '耐心等到最後，終於看見成功的曙光！', en: { text: 'breakthrough', type: '單字', zh: '你終於突破了！', sentence: 'You finally got your breakthrough!' } },
+    { icon: '🌊', idiom: '水到渠成', meaning: '形容時機成熟後，事情自然就完成了', comment: '一直努力到最後，答案自然就出現了！', en: { text: 'come together', type: '片語', zh: '最後一切都順利完成了！', sentence: 'It all came together in the end!' } }
   ];
-  for(const t of tiers){ if(attempts <= t.max) return t; }
-  return { icon: '🌈', idiom: '苦盡甘來', meaning: '形容過程雖然辛苦，最後終於成功', comment: '過程雖然曲折，但最後還是被你破解了，太棒了！' };
+  const pool = tiers[attempts] || fallback;
+  return pool[Math.floor(Math.random() * pool.length)];
 }
 const GIVEUP_RESULT = {
   icon: '💪', idiom: '再接再厲', meaning: '形容不因為這次沒成功就放棄，繼續努力',
-  comment: '這次先公布答案，下次你一定可以更快破解！'
+  comment: '這次先公布答案，下次你一定可以更快破解！',
+  en: { text: 'try again', type: '片語', zh: '我們再試一次吧！', sentence: "Let's try again!" }
 };
 
 function selectMode(mode){
@@ -495,10 +589,10 @@ function monkeySVG(){
 }
 function rabbitSVG(){
   return `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="兔子">
-    <ellipse cx="42" cy="16" rx="9" ry="27" fill="#FFFFFF" stroke="var(--outline)" stroke-width="3"/>
-    <ellipse cx="78" cy="16" rx="9" ry="27" fill="#FFFFFF" stroke="var(--outline)" stroke-width="3"/>
-    <ellipse cx="42" cy="18" rx="4" ry="18" fill="var(--pink-50)" stroke="var(--outline)" stroke-width="1.5"/>
-    <ellipse cx="78" cy="18" rx="4" ry="18" fill="var(--pink-50)" stroke="var(--outline)" stroke-width="1.5"/>
+    <ellipse cx="42" cy="30" rx="9" ry="27" fill="#FFFFFF" stroke="var(--outline)" stroke-width="3"/>
+    <ellipse cx="78" cy="30" rx="9" ry="27" fill="#FFFFFF" stroke="var(--outline)" stroke-width="3"/>
+    <ellipse cx="42" cy="32" rx="4" ry="18" fill="var(--pink-50)" stroke="var(--outline)" stroke-width="1.5"/>
+    <ellipse cx="78" cy="32" rx="4" ry="18" fill="var(--pink-50)" stroke="var(--outline)" stroke-width="1.5"/>
     <circle cx="60" cy="66" r="37" fill="#FFFFFF" stroke="var(--outline)" stroke-width="3"/>
     <ellipse cx="60" cy="72" rx="24" ry="20" fill="#FFF6EE" stroke="var(--outline)" stroke-width="2"/>
     ${faceFeatures(62,48,72)}
@@ -534,6 +628,39 @@ function pigSVG(){
     <ellipse cx="60" cy="76" rx="16" ry="12" fill="#FF9FBF" stroke="var(--outline)" stroke-width="2.5"/>
     <ellipse cx="54" cy="76" rx="3" ry="4" fill="#B23226" stroke="var(--outline)" stroke-width="1"/>
     <ellipse cx="66" cy="76" rx="3" ry="4" fill="#B23226" stroke="var(--outline)" stroke-width="1"/>
+  </svg>`;
+}
+function robotSVG(){
+  return `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="機器人">
+    <rect x="57" y="10" width="6" height="14" rx="3" fill="var(--outline)"/>
+    <circle cx="60" cy="12" r="8" fill="var(--circus-gold)" stroke="var(--outline)" stroke-width="3"/>
+    <rect x="14" y="28" width="92" height="78" rx="30" fill="#C3CEDD" stroke="var(--outline)" stroke-width="4"/>
+    <rect x="32" y="50" width="20" height="20" rx="7" fill="var(--sky)" stroke="var(--outline)" stroke-width="3"/>
+    <rect x="68" y="50" width="20" height="20" rx="7" fill="var(--sky)" stroke="var(--outline)" stroke-width="3"/>
+    <circle cx="38" cy="57" r="3.5" fill="#fff"/>
+    <circle cx="74" cy="57" r="3.5" fill="#fff"/>
+    <rect x="40" y="84" width="40" height="12" rx="6" fill="var(--outline)"/>
+    <rect x="52" y="84" width="4" height="12" fill="#C3CEDD"/>
+    <rect x="64" y="84" width="4" height="12" fill="#C3CEDD"/>
+    <polygon points="40,104 56,110 40,116" fill="var(--circus-red)" stroke="var(--outline)" stroke-width="2.5" stroke-linejoin="round"/>
+    <polygon points="80,104 64,110 80,116" fill="var(--circus-red)" stroke="var(--outline)" stroke-width="2.5" stroke-linejoin="round"/>
+    <circle cx="60" cy="110" r="5.5" fill="var(--circus-gold)" stroke="var(--outline)" stroke-width="2"/>
+  </svg>`;
+}
+function twinKidInner(hoodColor, starCx, starCy, eyeY, eyeXL, eyeXR){
+  return `
+    <circle cx="60" cy="58" r="42" fill="${hoodColor}" stroke="var(--outline)" stroke-width="4"/>
+    <circle cx="60" cy="70" r="30" fill="#FDE0C4" stroke="var(--outline)" stroke-width="3"/>
+    ${faceFeatures(eyeY,eyeXL,eyeXR)}
+    <path d="M50 84 Q60 90 70 84" stroke="var(--outline)" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <polygon points="${starCx},${starCy-13} ${starCx+3.5},${starCy-4.9} ${starCx+12.4},${starCy-4} ${starCx+5.7},${starCy+1.9} ${starCx+7.6},${starCy+10.5} ${starCx},${starCy+6} ${starCx-7.6},${starCy+10.5} ${starCx-5.7},${starCy+1.9} ${starCx-12.4},${starCy-4} ${starCx-3.5},${starCy-4.9}" fill="var(--circus-gold)" stroke="var(--outline)" stroke-width="2" stroke-linejoin="round"/>`;
+}
+function twinKidsSVG(){
+  const kidA = twinKidInner('var(--sky)', 32, 24, 64, 48, 72);
+  const kidB = twinKidInner('var(--pink)', 32, 24, 64, 48, 72);
+  return `<svg viewBox="0 0 210 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="雙子星星小孩">
+    <g transform="translate(0,0)">${kidA}</g>
+    <g transform="translate(104,0)">${kidB}</g>
   </svg>`;
 }
 function mascotBlock(svgFn, tip){
@@ -639,11 +766,11 @@ function renderModeSelect(){
       <p class="subtitle">密碼是 4 個 1～9 的數字，不會重複唷！</p>
       <div class="mode-grid">
         <button class="mode-btn" onclick="selectMode('computer')">
-          <div class="icon">🤖</div>
+          <div class="icon">${robotSVG()}</div>
           <div><div class="label">跟電腦比賽</div><div class="desc">電腦隨機出一組密碼，看你多快猜中！</div></div>
         </button>
         <button class="mode-btn" onclick="selectMode('two')">
-          <div class="icon">👧🧒</div>
+          <div class="icon">${twinKidsSVG()}</div>
           <div><div class="label">兩人對戰</div><div class="desc">一人當關主設密碼，另一人闖關猜猜看！</div></div>
         </button>
       </div>
@@ -742,6 +869,15 @@ function renderWin(){
           <div class="result-idiom">${result.idiom}</div>
           <div class="result-meaning">${result.meaning}</div>
           <div class="result-comment">${result.comment}</div>
+          <div class="result-english">
+            <span class="en-tag">📖 英文小教室</span>
+            <div class="en-line">
+              <span class="en-word">${result.en.text}</span>
+              <span class="en-type">${result.en.type}</span>
+            </div>
+            <div class="en-sentence">"${result.en.sentence}"</div>
+            <div class="en-zh">${result.en.zh}</div>
+          </div>
         </div>
         <div class="win-code-label">正確密碼是</div>
         <div class="win-code">${codeChips}</div>
